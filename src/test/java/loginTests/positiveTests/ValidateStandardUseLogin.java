@@ -4,9 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class ValidateStandardUseLogin {
-    public static void main(String[] args) {
+    @Test(testName = "Standard User Login Scenario")
+    public void ValidateStandardUseLogin(){
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/");
         WebElement userName = driver.findElement(By.id("user-name"));
@@ -18,19 +21,11 @@ public class ValidateStandardUseLogin {
         WebElement login = driver.findElement(By.id("login-button"));
         login.click();
 
-        String currentURL = driver.getCurrentUrl();
-        if (currentURL.equals("https://www.saucedemo.com/inventory.html")){
-            System.out.println("You have logged in successfuly!");
-        } else {
-            System.out.println("Something is wrong.. Try again!");
-        }
+        String expectedURL = "https://www.saucedemo.com/inventory.html";
+        Assert.assertEquals(driver.getCurrentUrl(), expectedURL);
 
         WebElement pageTitle = driver.findElement(By.cssSelector("#header_container > div.header_secondary_container > span"));
         String title = pageTitle.getText();
-        if (title.equals("Products")){
-            System.out.println("The title of the page is: " + title);
-        } else {
-            System.out.println("The title of the page is wrong!");
-        }
+        Assert.assertEquals(title, pageTitle.getText());
     }
 }
